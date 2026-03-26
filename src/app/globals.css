@@ -1,0 +1,106 @@
+/* src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+    --font-serif: 'Lora', serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-sans);
+    background: #FAFAF8;
+    color: #1A1A18;
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #D0CFC8; border-radius: 4px; }
+}
+
+@layer components {
+  /* Research card left border accent animation */
+  .research-card-accent::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: #1B6B45;
+    border-radius: 3px 0 0 3px;
+    transform: scaleY(0);
+    transition: transform 0.2s ease;
+    transform-origin: top;
+  }
+  .research-card-accent:hover::before { transform: scaleY(1); }
+
+  /* Animated gradient for hero badge */
+  .animate-pulse-soft {
+    animation: pulseSoft 2s ease-in-out infinite;
+  }
+  @keyframes pulseSoft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Score bar fill animation */
+  .score-fill {
+    animation: fillBar 1s ease-out forwards;
+    transform-origin: left;
+  }
+  @keyframes fillBar {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  /* Page fade-in */
+  .page-enter {
+    animation: pageEnter 0.3s ease-out;
+  }
+  @keyframes pageEnter {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Card stagger for lists */
+  .card-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+  .card-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+  .card-stagger > *:nth-child(3) { animation-delay: 0.15s; }
+  .card-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+  .card-stagger > *:nth-child(5) { animation-delay: 0.25s; }
+  .card-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .font-serif { font-family: var(--font-serif); }
+  .font-mono { font-family: var(--font-mono); }
+}
+.bubble {
+  @apply text-[11px] px-3 py-1.5 rounded-full border backdrop-blur-md;
+
+  background: rgba(122, 229, 176, 0.08);
+  border-color: rgba(122, 229, 176, 0.3);
+  color: #7AE5B0;
+
+  animation: floatUp 3.5s ease-out forwards;
+  box-shadow: 0 0 12px rgba(122, 229, 176, 0.15);
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(0px) scale(0.8);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-120px) scale(1);
+  }
+}
