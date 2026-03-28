@@ -1,13 +1,8 @@
 // src/lib/fetchers/rss.ts
-// Fetches from RSS feeds: ScienceDaily, Nature, IEEE
-
 import Parser from 'rss-parser'
 import type { ResearchField } from '@/types'
 
-const parser = new Parser({
-  timeout: 10000,
-  headers: { 'User-Agent': 'KIR-EROBO-AI/1.0' },
-})
+const parser = new Parser({ timeout: 8000, headers: { 'User-Agent': 'KIR-EROBO-AI/1.0' } })
 
 export interface RSSItem {
   id: string
@@ -19,7 +14,7 @@ export interface RSSItem {
   field: ResearchField
 }
 
-// RSS feed sources configuration
+// Dikurangi jadi 3 source paling stabil
 export const RSS_SOURCES = [
   {
     name: 'ScienceDaily · AI',
@@ -36,35 +31,35 @@ export const RSS_SOURCES = [
     url: 'https://www.sciencedaily.com/rss/plants_animals/biology.xml',
     field: 'bio' as ResearchField,
   },
-  {
-    name: 'Nature · Sustainability',
-    url: 'https://www.nature.com/natsustain.rss',
-    field: 'env' as ResearchField,
-  },
-  {
-    name: 'Nature · Biotechnology',
-    url: 'https://www.nature.com/nbt.rss',
-    field: 'bio' as ResearchField,
-  },
 ]
 
 export async function fetchRSSFeed(
   url: string,
   sourceName: string,
   field: ResearchField,
-  limit = 10
+  limit = 6
 ): Promise<RSSItem[]> {
   try {
     const feed = await parser.parseURL(url)
-    return feed.items.slice(0, limit).map((item, idx) => ({
-      id: item.guid || item.link || `${sourceName}-${idx}`,
-      title: item.title || '',
-      summary: item.contentSnippet || item.content || item.summary || '',
-      url: item.link || '',
-      published: item.isoDate || item.pubDate || new Date().toISOString(),
-      source: sourceName,
-      field,
-    }))
+
+    // Filter 7 hari terakhir
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+
+    return feed.items
+      .filter(item => {
+        const pub = new Date(item.isoDate || item.pubDate || '')
+        return pub >= sevenDaysAgo
+      })
+      .slice(0, limit)
+      .map((item, idx) => ({
+        id: item.guid || item.link || `${sourceName}-${idx}`,
+        title: item.title || '',
+        summary: item.contentSnippet || item.content || item.summary || '',
+        url: item.link || '',
+        published: item.isoDate || item.pubDate || new Date().toISOString(),
+        source: sourceName,
+        field,
+      }))
   } catch (err) {
     console.error(`[RSS] Error fetching ${sourceName}:`, err)
     return []
@@ -72,13 +67,12 @@ export async function fetchRSSFeed(
 }
 
 export async function fetchAllRSSFeeds(): Promise<RSSItem[]> {
-  const results: RSSItem[] = []
-
-  for (const src of RSS_SOURCES) {
-    const items = await fetchRSSFeed(src.url, src.name, src.field, 8)
-    results.push(...items)
-    await new Promise(r => setTimeout(r, 1000))
-  }
+  // Fetch semua paralel — lebih cepat dari sequential
+  const results = await Promise.allSettled(
+    RSS_SOURCES.map(src => fetchRSSFeed(src.url, src.name, src.field, 6))
+  )
 
   return results
+    .filter(r => r.status === 'fulfilled')
+    .flatMap(r => (r as PromiseFulfilledResult<RSSItem[]>).value)
 }

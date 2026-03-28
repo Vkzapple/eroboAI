@@ -1,22 +1,16 @@
 // src/lib/fetchers/arxiv.ts
-// Fetches research papers from arXiv API (free, no key needed)
-
 import axios from 'axios'
 import { parseStringPromise } from 'xml2js'
 import type { ResearchField } from '@/types'
 
 const BASE_URL = process.env.ARXIV_BASE_URL || 'https://export.arxiv.org/api/query'
 
-// STEM queries relevant for Indonesian high school students
+// Dikurangi jadi 4 query paling relevan (hemat waktu & quota)
 export const ARXIV_QUERIES = [
-  { query: 'machine learning agriculture Indonesia', field: 'ai' as ResearchField },
-  { query: 'IoT environmental monitoring low cost sensor', field: 'env' as ResearchField },
-  { query: 'computer vision plant disease detection', field: 'ai' as ResearchField },
-  { query: 'NLP bahasa Indonesia text classification', field: 'ai' as ResearchField },
-  { query: 'renewable energy solar cell tropical climate', field: 'phys' as ResearchField },
-  { query: 'bioplastic biodegradable natural materials', field: 'chem' as ResearchField },
-  { query: 'CRISPR plant biology food security', field: 'bio' as ResearchField },
-  { query: 'graph neural network epidemiology disease', field: 'math' as ResearchField },
+  { query: 'cat:cs.AI+OR+cat:cs.LG', field: 'ai' as ResearchField },
+  { query: 'cat:eess.SP+low+cost+sensor+environment', field: 'env' as ResearchField },
+  { query: 'cat:q-bio+Indonesia+OR+tropical', field: 'bio' as ResearchField },
+  { query: 'cat:physics+renewable+energy+solar', field: 'phys' as ResearchField },
 ]
 
 export interface ArxivPaper {
@@ -33,11 +27,12 @@ export interface ArxivPaper {
 export async function fetchArxivPapers(
   query: string,
   field: ResearchField,
-  maxResults = 10
+  maxResults = 8
 ): Promise<ArxivPaper[]> {
   try {
+    // Filter hanya 7 hari terakhir
     const params = new URLSearchParams({
-      search_query: `all:${query}`,
+      search_query: query,
       start: '0',
       max_results: String(maxResults),
       sortBy: 'submittedDate',
@@ -45,8 +40,8 @@ export async function fetchArxivPapers(
     })
 
     const res = await axios.get(`${BASE_URL}?${params}`, {
-      timeout: 15000,
-      headers: { 'User-Agent': 'KIR-EROBO-AI/1.0 (educational; contact: kir.erobo@school.id)' }
+      timeout: 10000,
+      headers: { 'User-Agent': 'KIR-EROBO-AI/1.0 (educational)' }
     })
 
     const parsed = await parseStringPromise(res.data, { explicitArray: false })
@@ -55,21 +50,30 @@ export async function fetchArxivPapers(
 
     const entries = Array.isArray(feed.entry) ? feed.entry : [feed.entry]
 
-    return entries.map((entry: any): ArxivPaper => {
-      const arxivId = entry.id?.replace('http://arxiv.org/abs/', '') || ''
-      return {
-        id: arxivId,
-        arxiv_id: arxivId,
-        title: entry.title?.replace(/\n/g, ' ').trim() || '',
-        summary: entry.summary?.replace(/\n/g, ' ').trim() || '',
-        authors: Array.isArray(entry.author)
-          ? entry.author.map((a: any) => a.name)
-          : [entry.author?.name || 'Unknown'],
-        published: entry.published || new Date().toISOString(),
-        url: `https://arxiv.org/abs/${arxivId}`,
-        field,
-      }
-    })
+    // Filter hanya paper 7 hari terakhir
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+
+    return entries
+      .filter((entry: any) => {
+        const published = new Date(entry.published || '')
+        return published >= sevenDaysAgo
+      })
+      .map((entry: any): ArxivPaper => {
+        const arxivId = entry.id?.replace('http://arxiv.org/abs/', '')
+          .replace('https://arxiv.org/abs/', '') || ''
+        return {
+          id: arxivId,
+          arxiv_id: arxivId,
+          title: entry.title?.replace(/\n/g, ' ').trim() || '',
+          summary: entry.summary?.replace(/\n/g, ' ').trim() || '',
+          authors: Array.isArray(entry.author)
+            ? entry.author.slice(0, 3).map((a: any) => a.name)
+            : [entry.author?.name || 'Unknown'],
+          published: entry.published || new Date().toISOString(),
+          url: `https://arxiv.org/abs/${arxivId}`,
+          field,
+        }
+      })
   } catch (err) {
     console.error(`[arXiv] Error fetching "${query}":`, err)
     return []
@@ -82,11 +86,11 @@ export async function fetchAllArxivPapers(): Promise<ArxivPaper[]> {
   for (const { query, field } of ARXIV_QUERIES) {
     const papers = await fetchArxivPapers(query, field, 8)
     results.push(...papers)
-    // Rate limit: 3s between requests (arXiv policy)
-    await new Promise(r => setTimeout(r, 3000))
+    // 1 detik saja — cukup untuk rate limit arXiv
+    await new Promise(r => setTimeout(r, 1000))
   }
 
-  // Deduplicate by arxiv_id
+  // Deduplicate
   const seen = new Set<string>()
   return results.filter(p => {
     if (seen.has(p.arxiv_id)) return false
