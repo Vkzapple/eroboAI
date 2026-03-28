@@ -1,11 +1,8 @@
 // src/app/api/cron/route.ts
-// Triggered daily by Vercel Cron or external cron service
-// Vercel cron config: vercel.json → "crons": [{"path": "/api/cron", "schedule": "0 0 * * *"}]
-
 import { NextRequest, NextResponse } from 'next/server'
 import { runAgentPipeline } from '@/lib/agent/pipeline'
 
-export const maxDuration = 300 // 5 minutes (Vercel Pro limit)
+export const maxDuration = 300
 
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization')
@@ -13,31 +10,43 @@ export async function GET(req: NextRequest) {
   const querySecret = searchParams.get('secret')
   const cronSecret = process.env.CRON_SECRET
 
-  // Izinkan akses via: header Authorization ATAU query param ?secret=
   const isAuthorized =
-    !cronSecret ||                                    // tidak ada secret = bebas
-    authHeader === `Bearer ${cronSecret}` ||          // via header
-    querySecret === cronSecret                        // via ?secret= di URL
+    !cronSecret ||
+    authHeader === `Bearer ${cronSecret}` ||
+    querySecret === cronSecret
 
   if (!isAuthorized) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  console.log('[Cron] Daily EROBO agent triggered at', new Date().toISOString())
+  const triggeredAt = new Date().toISOString()
+  console.log('[Cron] EROBO agent triggered at', triggeredAt)
 
-  const result = await runAgentPipeline()
+  // Return immediately — pipeline runs in background
+  // This prevents Vercel free tier 10s timeout from killing the job
+  runAgentPipeline()
+    .then(result => {
+      console.log('[Cron] Pipeline finished:', JSON.stringify({
+        success: result.success,
+        papers_new: result.papers_new,
+        papers_stored: result.papers_stored,
+        gaps_found: result.gaps_found,
+        ideas_generated: result.ideas_generated,
+        duration_ms: result.duration_ms,
+      }))
+    })
+    .catch(err => {
+      console.error('[Cron] Pipeline error:', err.message)
+    })
 
   return NextResponse.json({
-    ok: result.success,
-    message: result.success
-      ? `Pipeline done: ${result.papers_stored} papers, ${result.gaps_found} gaps, ${result.ideas_generated} ideas`
-      : `Pipeline failed: ${result.error}`,
-    result,
-    timestamp: new Date().toISOString(),
+    ok: true,
+    message: 'Pipeline started. Check Supabase → agent_logs in ~3 minutes for results.',
+    triggered_at: triggeredAt,
+    check: 'https://supabase.com → Table Editor → agent_logs',
   })
 }
 
-// Also allow POST for manual triggering from dashboard
 export async function POST(req: NextRequest) {
   return GET(req)
 }
