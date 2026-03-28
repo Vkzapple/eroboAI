@@ -10,11 +10,12 @@ type Bubble = {
 }
 
 const MESSAGES = [
-  "📡 Fetching arXiv...",
-  "🤖 AI analyzing...",
-  "🔍 Gap detected",
-  "🧠 Idea generated",
-  "📊 Trend updated",
+  "Fetching arXiv...",
+  "AI analyzing...",
+  "Gap detected",
+  "Idea generated",
+  "Trend updated",
+  "Inspiration struck",
 ]
 
 export default function FloatingBubble() {
@@ -31,7 +32,6 @@ export default function FloatingBubble() {
 
       setBubbles(prev => [...prev, newBubble])
 
-      // auto remove
       setTimeout(() => {
         setBubbles(prev => prev.filter(b => b.id !== newBubble.id))
       }, 3500)
@@ -57,4 +57,21 @@ export default function FloatingBubble() {
       ))}
     </div>
   )
+  return (
+    <div className="pointer-events-none fixed inset-0 z-40 overflow-hidden">
+      {bubbles.map(b => (
+        <div
+        key={b.id}
+        className="absolute bubble"
+        style={{
+          left: `${b.x}%`,
+          bottom:"0%",
+          transform: `scale(${b.size})`,
+        }}
+        >
+        {b.text}
+        </div>
+      ))}
+    </div>
+    )
 }

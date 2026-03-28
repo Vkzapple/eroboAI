@@ -1,4 +1,3 @@
-// src/components/gaps/GapCard.tsx
 import type { ResearchGap } from '@/types'
 
 interface Props {
