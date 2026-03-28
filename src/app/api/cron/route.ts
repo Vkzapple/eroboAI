@@ -8,14 +8,20 @@ import { runAgentPipeline } from '@/lib/agent/pipeline'
 export const maxDuration = 300 // 5 minutes (Vercel Pro limit)
 
 export async function GET(req: NextRequest) {
-  // Verify cron secret to prevent unauthorized calls
   const authHeader = req.headers.get('authorization')
+  const { searchParams } = new URL(req.url)
+  const querySecret = searchParams.get('secret')
   const cronSecret = process.env.CRON_SECRET
 
-const isLocalDev = process.env.NODE_ENV === 'development'
-if (!isLocalDev && cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-  return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-}
+  // Izinkan akses via: header Authorization ATAU query param ?secret=
+  const isAuthorized =
+    !cronSecret ||                                    // tidak ada secret = bebas
+    authHeader === `Bearer ${cronSecret}` ||          // via header
+    querySecret === cronSecret                        // via ?secret= di URL
+
+  if (!isAuthorized) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
 
   console.log('[Cron] Daily EROBO agent triggered at', new Date().toISOString())
 
