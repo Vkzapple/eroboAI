@@ -20,7 +20,7 @@ const AI_PROVIDER = process.env.AI_PROVIDER || 'gemini'
 // ── Core LLM call ─────────────────────────────────────────────
 async function callLLM(prompt: string): Promise<string> {
   if (AI_PROVIDER === 'gemini' && gemini) {
-    const model = gemini.getGenerativeModel({ model: 'gemini-2.5-flash' })
+    const model = gemini.getGenerativeModel({ model: 'gemini-2.0-flash-lite' })
     const result = await model.generateContent(prompt)
     return result.response.text()
   }
