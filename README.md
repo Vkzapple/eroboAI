@@ -287,4 +287,4 @@ MIT — Bebas digunakan dan dimodifikasi oleh KIR sekolah lain di Indonesia.
 
 ---
 
-*Dibuat dengan ❤️ oleh KIR EROBO — Berpikir Kritis, Berkarya Nyata*
+*Dibuat oleh Evelly Ketua Umum KIR EROBO — Berpikir Kritis, Berkarya Nyata*
