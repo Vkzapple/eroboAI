@@ -82,7 +82,7 @@ const IMPACTS = [
   },
   {
     metric: 'Gratis',
-    label: 'untuk Semua KIR',
+    label: 'untuk Semua Siswa',
     desc: 'Open untuk seluruh siswa Indonesia',
     color: 'bg-[#F5E8FB] border-[#DDB8F0] text-[#7B2FBE]',
   },
@@ -93,7 +93,7 @@ const USE_CASES = [
   {
     emoji: '🔬',
     title: 'Cari Topik Karya Ilmiah',
-    desc: 'Tidak tahu mau meneliti apa? EROBO.AI menampilkan gap penelitian aktual yang bisa langsung dijadikan judul KIR.',
+    desc: 'Tidak tahu mau meneliti apa? EROBO.AI menampilkan gap penelitian aktual yang bisa langsung dijadikan judul Karya Tulis Ilmiah.',
   },
   {
     emoji: '📰',
@@ -133,7 +133,7 @@ export default async function HomePage() {
           {/* Brand pill */}
           <div className="inline-flex items-center gap-2.5 bg-white/8 border border-white/15 rounded-full px-4 py-1.5 mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-[#7AE5B0] animate-pulse" />
-            <span className="text-[11px] font-mono text-white/60 tracking-widest uppercase">Dibuat oleh EROBO · Untuk semua siswa KIR Indonesia</span>
+            <span className="text-[11px] font-mono text-white/60 tracking-widest uppercase">Dibuat oleh EROBO · Untuk semua siswa Indonesia</span>
           </div>
 
           {/* Headline */}

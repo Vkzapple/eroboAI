@@ -39,9 +39,7 @@ export default function AboutPage() {
       {/* Header */}
       <div className="bg-white border-b border-border">
         <div className="max-w-5xl mx-auto px-6 py-9">
-          <p className="text-[11px] font-mono font-medium text-accent tracking-widest uppercase mb-2">
-            // Tentang Platform
-          </p>
+
           <h1 className="text-4xl font-extrabold tracking-tight mb-2">EROBO AI</h1>
           <p className="text-[15px] font-serif italic text-ink-2">
             Platform Agentic AI untuk eksplorasi ide penelitian berbasis data real-time
