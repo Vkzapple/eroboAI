@@ -329,7 +329,7 @@ export default async function HomePage() {
         <div className="max-w-5xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="text-[12px] text-[#8A8A84] font-mono">
             EROBO.AI — dibuat oleh{' '}
-            <Link href="/about" className="text-[#1B6B45] hover:underline">KIR EROBO</Link>
+            <Link href="/about" className="text-[#1B6B45] hover:underline">Evelly - KIR EROBO</Link>
             {' '}· Untuk semua siswa Indonesia
           </p>
           <p className="text-[11px] text-[#8A8A84] font-mono">
