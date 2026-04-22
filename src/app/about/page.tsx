@@ -3,11 +3,14 @@ import { StatWidget, InfoWidget } from '@/components/layout/Sidebar'
 
 const MEMBERS = [
   { initials: 'EV', name: 'Evelly Khanzani Putri', role: 'Ketua Umum' },
-  { initials: 'FA', name: 'Fauzan Abrar Putra Syadeva', role: 'Wakil Ketua' },
-  { initials: 'FA', name: 'Faezya', role: 'Div. Penelitian' },
-  { initials: 'ZA', name: 'Zahra Aisyah', role: 'Div. Teknologi' },
-  { initials: 'BM', name: 'Bagas Mahendra', role: 'Div. Publikasi' },
-  { initials: 'DK', name: 'Dinda Kusuma', role: 'Sekretaris' },
+  { initials: 'FA', name: 'Fauzan Abrar Putra Syadeva', role: 'Wakil Ketua - Ketua Science' },
+  { initials: 'FA', name: 'Faezya Aditya', role: 'Wakil Ketua - Ketua Retek' },
+  { initials: 'SK', name: 'Siti Kayyisah Ramadhani', role: 'Sekretaris 1' },
+  { initials: 'RK', name: 'Raykenzie Nazaru Fatthurahmansyah', role: 'Sekretaris 2' },
+  { initials: 'PH', name: 'Philip Rahmat', role: 'Bendahara 1' },
+  { initials: 'MG', name: 'Megawati', role: 'Bendahara 2' },
+  { initials: 'BM', name: 'Bunga Husnatul Mubarok', role: 'Humas 1' },
+  { initials: 'RI', name: 'Rani Indah Pratiwi', role: 'Humas 2' },
 ]
 
 const ACTIVITIES = [
