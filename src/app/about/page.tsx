@@ -96,7 +96,7 @@ export default function AboutPage() {
               </h2>
               <p className="text-[14px] text-ink-2 leading-relaxed mb-3">
                 KIR EROBO (Eksperimen Riset & Observasi) adalah kelompok ilmiah remaja
-                yang berfokus pada penelitian berbasis sains dan teknologi sejak 2018.
+                yang berfokus pada penelitian berbasis sains dan teknologi sejak 2012.
               </p>
               <p className="text-[14px] text-ink-2 leading-relaxed">
                 Platform ini digunakan secara aktif oleh anggota untuk membantu menemukan ide penelitian,
@@ -137,14 +137,6 @@ export default function AboutPage() {
                   { label: 'Update AI', value: 'Harian' },
                   { label: 'Mode', value: 'Multi-organisasi' },
                 ]}
-              />
-            </div>
-
-            <div className="bg-white border border-border rounded-card overflow-hidden">
-              <StatWidget
-                title="Teknologi EROBO AI"
-                icon="🛠"
-                rows={TECH_STACK}
               />
             </div>
 

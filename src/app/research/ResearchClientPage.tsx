@@ -39,7 +39,6 @@ export function ResearchClientPage({initialItems,fieldCounts,lastRun}:Props) {
     <div>
       <div className="bg-white border-b border-[#E2E1DC]">
         <div className="max-w-5xl mx-auto px-6 py-10">
-          <p className="text-[11px] font-mono font-semibold text-[#1B6B45] tracking-widest uppercase mb-2">// Research Today</p>
           <h1 className="text-4xl font-extrabold tracking-tight mb-2">STEM Research Today</h1>
           <p className="font-serif italic text-[#4A4A46] mb-5">Diperbarui otomatis setiap pagi oleh agen EROBO AI</p>
           <div className="flex flex-wrap gap-2">
@@ -96,12 +95,7 @@ export function ResearchClientPage({initialItems,fieldCounts,lastRun}:Props) {
                 </div>
               ))}
             </SideWidget>
-            <div className="bg-[#F4F3EF] border border-[#E2E1DC] rounded-[16px] p-5">
-              <p className="text-[12px] font-bold mb-3">🤖 System Architecture</p>
-              {['Scheduler (Vercel Cron)','↓ API Fetch (arXiv+RSS)','↓ AI Processing (Gemini)','↓ Database (Supabase)','↓ Frontend Display'].map(s=>(
-                <div key={s} className={`text-[12px] font-mono py-0.5 ${s.startsWith('↓')?'text-[#8A8A84]':'text-[#1B6B45] font-semibold'}`}>{s}</div>
-              ))}
-            </div>
+      
           </aside>
         </div>
       </div>

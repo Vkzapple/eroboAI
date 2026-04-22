@@ -102,7 +102,6 @@ export default function GapsPage() {
 
       <div className="bg-white border-b border-[#E2E1DC]">
         <div className="max-w-5xl mx-auto px-6 py-10">
-          <p className="text-[11px] font-mono font-semibold text-[#1B6B45] tracking-widest uppercase mb-2">// AI Gap Finder ⭐</p>
           <h1 className="text-4xl font-extrabold tracking-tight mb-2">Research Gap Suggestions</h1>
           <p className="font-serif italic text-[#4A4A46] mb-5">Celah penelitian yang ditemukan agen AI — relevan untuk skala siswa SMA</p>
           <div className="flex flex-wrap gap-2">

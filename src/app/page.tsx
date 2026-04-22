@@ -185,7 +185,6 @@ export default async function HomePage() {
       <section className="bg-[#F4F3EF] border-b border-[#E2E1DC]">
         <div className="max-w-5xl mx-auto px-6 py-16">
           <div className="text-center mb-12">
-            <p className="text-[11px] font-mono font-semibold text-[#1B6B45] tracking-widest uppercase mb-2">// Cara Kerja AI</p>
             <h2 className="text-3xl font-extrabold tracking-tight mb-3">Dari Jurnal Global ke Ide Penelitianmu</h2>
             <p className="text-[15px] font-serif italic text-[#4A4A46] max-w-lg mx-auto">
               Pipeline agentic yang berjalan otomatis setiap hari — kamu cukup buka websitenya.
@@ -214,7 +213,6 @@ export default async function HomePage() {
         {/* ── IMPACT / TRUST SIGNALS ─────────────────────── */}
         <section className="py-14 border-b border-[#E2E1DC]">
           <div className="mb-10">
-            <p className="text-[11px] font-mono font-semibold text-[#1B6B45] tracking-widest uppercase mb-2">// Kenapa EROBO.AI?</p>
             <h2 className="text-3xl font-extrabold tracking-tight mb-2">AI yang Bekerja, Bukan Sekadar Fitur</h2>
             <p className="text-[15px] font-serif italic text-[#4A4A46]">
               Bukan cuma tampilan — setiap data di sini dikumpulkan dan dianalisis sungguhan oleh AI setiap hari.
@@ -232,31 +230,11 @@ export default async function HomePage() {
           </div>
 
           {/* Pipeline visual */}
-          <div className="bg-[#1A1A18] rounded-[16px] px-8 py-6 flex flex-wrap items-center justify-between gap-4">
-            <div className="text-[12px] font-mono text-white/40 uppercase tracking-widest">Pipeline Harian:</div>
-            {[
-              { label: 'Vercel Cron', sub: '06:00 WIB', color: 'text-[#7AE5B0]' },
-              { label: '→', sub: '', color: 'text-white/20' },
-              { label: 'arXiv + RSS', sub: '4 sumber', color: 'text-blue-300' },
-              { label: '→', sub: '', color: 'text-white/20' },
-              { label: 'Gemini AI', sub: 'Analisis + Rangkum', color: 'text-purple-300' },
-              { label: '→', sub: '', color: 'text-white/20' },
-              { label: 'Supabase', sub: 'Tersimpan', color: 'text-yellow-300' },
-              { label: '→', sub: '', color: 'text-white/20' },
-              { label: 'Kamu', sub: 'Langsung bisa dipakai', color: 'text-[#7AE5B0]' },
-            ].map((p, i) => (
-              <div key={i} className="text-center">
-                <div className={`text-[13px] font-mono font-semibold ${p.color}`}>{p.label}</div>
-                {p.sub && <div className="text-[10px] text-white/30 mt-0.5">{p.sub}</div>}
-              </div>
-            ))}
-          </div>
         </section>
 
         {/* ── USE CASES ──────────────────────────────────── */}
         <section className="py-14 border-b border-[#E2E1DC]">
           <div className="mb-10">
-            <p className="text-[11px] font-mono font-semibold text-[#1B6B45] tracking-widest uppercase mb-2">// Bisa Dipakai Untuk</p>
             <h2 className="text-3xl font-extrabold tracking-tight mb-2">Untuk Siapa EROBO.AI?</h2>
             <p className="text-[15px] font-serif italic text-[#4A4A46]">
               Cocok untuk siapapun yang mau berkarya ilmiah — dari anggota KIR hingga siswa yang baru mulai.
@@ -281,7 +259,6 @@ export default async function HomePage() {
         <section className="py-14 border-b border-[#E2E1DC]">
           <div className="flex items-end justify-between mb-8 gap-4 flex-wrap">
             <div>
-              <p className="text-[11px] font-mono font-semibold text-[#1B6B45] tracking-widest uppercase mb-2">// Sorotan Hari Ini</p>
               <h2 className="text-3xl font-extrabold tracking-tight mb-1">Research Terbaru yang Relevan</h2>
               <p className="text-[14px] font-serif italic text-[#4A4A46]">Dikurasi otomatis oleh AI — diperbarui setiap pagi</p>
             </div>
@@ -322,7 +299,6 @@ export default async function HomePage() {
 
             <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
               <div className="max-w-lg">
-                <p className="text-[11px] font-mono text-[#7AE5B0] tracking-widest uppercase mb-3">// Mulai Sekarang</p>
                 <h2 className="text-3xl font-extrabold text-white tracking-tight mb-3">
                   Temukan Topik Riset<br />yang Belum Pernah Diteliti
                 </h2>
@@ -354,7 +330,7 @@ export default async function HomePage() {
           <p className="text-[12px] text-[#8A8A84] font-mono">
             EROBO.AI — dibuat oleh{' '}
             <Link href="/about" className="text-[#1B6B45] hover:underline">KIR EROBO</Link>
-            {' '}· Untuk semua siswa KIR Indonesia
+            {' '}· Untuk semua siswa Indonesia
           </p>
           <p className="text-[11px] text-[#8A8A84] font-mono">
             Powered by Gemini AI · arXiv · ScienceDaily · Nature · IEEE
