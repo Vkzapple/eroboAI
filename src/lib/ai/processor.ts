@@ -38,7 +38,6 @@ async function callLLM(prompt: string): Promise<string> {
   throw new Error('No AI provider configured. Set GEMINI_API_KEY or OPENAI_API_KEY.')
 }
 
-// ── 1. Summarize research paper in Bahasa Indonesia ───────────
 export async function summarizePaper(
   title: string,
   abstract: string
